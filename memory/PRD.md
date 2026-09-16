@@ -46,6 +46,11 @@ Build a modern, mobile-first digital business card / personal networking page fo
 
 ## Backlog / Next
 - P1: Customer deploys to their own domain (Hostinger or free Vercel/Netlify/CF Pages) so the card stops loading from the Emergent preview URL — then re-generate QRs to the final domain.
+
+## Implemented (2026-09-16, iteration 7 — custom domain prep)
+- deployment_agent check: all deployment checks passed, no blockers.
+- DNS probed: duttudullu.tech resolves to 2.57.91.91 (Hostinger); connect.duttudullu.tech not created yet — customer must add the subdomain in hPanel.
+- Production build produced and verified: `yarn build` succeeds (20s), /app/frontend/build contains the complete static site (.htaccess, _redirects, manifest, icons, logo, photo). Playwright smoke test of the production bundle (?u=raghu): name renders, logo loads, QR renders, zero page errors. The build/ folder is ready to upload to Hostinger public_html for the subdomain.
 - P1: ~~Real profile photo~~ DONE (2026-09-16, iteration 3): customer headshot installed at public/profile.jpg (600×600, 55KB), avatar shows photo — verified loaded, centered, initials removed, no overflow/errors.
 - P2: ~~Optional persisted language choice~~ DONE (2026-09-16, iteration 4): language saved in on-device localStorage, Arabic phone-locale auto-defaults to Arabic on first visit. Also added Android PWA manifest + NationLabs icons (192/512) so the card installs as a home-screen app ("Add to Home screen") — the Android-native replacement for the iOS-only Wallet idea.
 - P2: Apple Wallet pass — NOT applicable (customer's phone is an Honor Magic V5 Android; Google Wallet does not support personal passes of this type). NFC tag pairing recommended instead (write the card URL with any NFC Tools app).
