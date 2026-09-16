@@ -19,6 +19,11 @@ node_modules/
 # Testing
 /coverage
 
+# Environment files (never commit these)
+frontend/.env
+backend/.env
+*.env
+
 # Next.js
 /.next/
 /out/
