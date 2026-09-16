@@ -61,7 +61,7 @@
 }
 .brand-logo {
   display: block;
-  width: min(200px, 62%);
+  width: min(132px, 40%);
   height: auto;
   margin: 0 auto;
 }
@@ -540,7 +540,7 @@
 }
 .fsqr-logo {
   display: block;
-  width: 150px;
+  width: 96px;
   height: auto;
   margin: 0 auto 14px;
 }

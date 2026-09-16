@@ -84,9 +84,9 @@ can scan your card straight from your lock screen.
 
 ## Your photo
 
-Drop your headshot into the `public/` folder (e.g. `profile.jpg`) and set
-`photo: "/profile.jpg"` in `src/config.js`. The RM initials are only a
-placeholder until then.
+Your headshot is live at `public/profile.jpg`, wired through
+`photo: "/profile.jpg"` in `src/config.js`. Replace that file (keep the name)
+to update it, or set `photo: ""` to go back to the RM initials placeholder.
 
 ## Logo & colours
 

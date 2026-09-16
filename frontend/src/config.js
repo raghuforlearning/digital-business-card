@@ -39,7 +39,7 @@ export const PROFILE = {
 
   // Add a URL (or put "profile.jpg" in the public folder and write "/profile.jpg")
   // to replace the "RM" initials with your photo.
-  photo: "",
+  photo: "/profile.jpg", // your headshot (public/profile.jpg) — delete this line or set "" to return to the RM initials
   logo: "/nationlabs-logo.png", // the NationLabs logo shown at the top of the card
   initials: "RM",
 
