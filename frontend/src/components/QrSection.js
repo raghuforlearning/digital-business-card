@@ -5,7 +5,7 @@ import { Download, Maximize2 } from "lucide-react";
 import { toast } from "sonner";
 import { cardUrl, buildVCard, downloadCanvasPng } from "../lib/vcard";
 
-export function QrSection({ onShowQr }) {
+export function QrSection({ onShowQr, t }) {
   const [tab, setTab] = useState("link");
   const tileRef = useRef(null);
   const value = tab === "link" ? cardUrl() : buildVCard();
@@ -33,8 +33,8 @@ export function QrSection({ onShowQr }) {
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="panel-head">
-        <span className="eyebrow">Always one scan away</span>
-        <h2>Scan to Connect</h2>
+        <span className="eyebrow">{t.qrEyebrow}</span>
+        <h2>{t.scanToConnect}</h2>
       </div>
 
       <div className="seg" role="tablist" aria-label="QR code type">
@@ -46,7 +46,7 @@ export function QrSection({ onShowQr }) {
           className={tab === "link" ? "seg-active" : ""}
           onClick={() => setTab("link")}
         >
-          Card Link
+          {t.tabLink}
         </button>
         <button
           type="button"
@@ -56,7 +56,7 @@ export function QrSection({ onShowQr }) {
           className={tab === "vcard" ? "seg-active" : ""}
           onClick={() => setTab("vcard")}
         >
-          Add Contact
+          {t.tabVCard}
         </button>
       </div>
 
@@ -72,9 +72,7 @@ export function QrSection({ onShowQr }) {
         />
       </div>
       <p className="qr-caption">
-        {tab === "link"
-          ? "Opens this digital card"
-          : "Adds Raghu straight to contacts"}
+        {tab === "link" ? t.captionLink : t.captionVCard}
       </p>
 
       <div className="btn-row">
@@ -85,7 +83,7 @@ export function QrSection({ onShowQr }) {
           onClick={handleDownload}
         >
           <Download size={16} aria-hidden="true" />
-          Download PNG
+          {t.downloadPng}
         </button>
         <button
           type="button"
@@ -94,7 +92,7 @@ export function QrSection({ onShowQr }) {
           onClick={onShowQr}
         >
           <Maximize2 size={16} aria-hidden="true" />
-          Show My QR
+          {t.showMyQr}
         </button>
       </div>
     </motion.section>

@@ -40,19 +40,38 @@ export const PROFILE = {
   // Add a URL (or put "profile.jpg" in the public folder and write "/profile.jpg")
   // to replace the "RM" initials with your photo.
   photo: "",
+  logo: "/nationlabs-logo.png", // the NationLabs logo shown at the top of the card
   initials: "RM",
+
+  // Arabic versions (used by the EN / عربي toggle at the top of the card).
+  // Falls back to the English values above when left empty.
+  fullNameAr: "راغو نارايانان موهان",
+  displayNameAr: "راغو م",
+  designationAr: "مهندس أنظمة أول",
+  companyAr: "NationLabs للبحوث والتطوير التقني",
+  focusAr: [
+    "البنية التحتية للمؤسسات",
+    "الأمن السيبراني",
+    "حلول الذكاء الاصطناعي",
+    "هندسة الحلول",
+  ],
+  focusShortAr: ["البنية التحتية", "الأمن السيبراني", "الذكاء الاصطناعي"],
 };
 
 // WhatsApp pre-filled greeting
 export const WHATSAPP = {
   greetingEvent: "Hi Raghu, we connected at GISEC.",
   greeting: "Hi Raghu, great to connect with you.",
+  greetingEventAr: "مرحبًا راغبو، تواصلنا في GISEC.",
+  greetingAr: "مرحبًا راغبو، سعدت بمعرفتك.",
 };
 
 // Email pre-filled subject
 export const EMAIL = {
   subjectEvent: "Great connecting at GISEC",
   subject: "Great connecting with you",
+  subjectEventAr: "سعدت بمعرفتك في GISEC",
+  subjectAr: "سعدت بمعرفتك",
 };
 
 // "Let's Connect" quick-interest buttons
@@ -65,3 +84,14 @@ export const INTERESTS = [
   "Government Technology",
   "Partnerships",
 ];
+
+// Arabic labels for the interest buttons (same order as INTERESTS)
+export const INTEREST_LABELS_AR = {
+  Cybersecurity: "الأمن السيبراني",
+  "AI & Automation": "الذكاء الاصطناعي والأتمتة",
+  "Enterprise Infrastructure": "البنية التحتية للمؤسسات",
+  "Data Centre": "مراكز البيانات",
+  "Virtualization & Cloud": "المحاكاة الافتراضية والسحابة",
+  "Government Technology": "تقنيات الحكومة",
+  Partnerships: "الشراكات",
+};

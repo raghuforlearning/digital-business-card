@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, MotionConfig, motion } from "framer-motion";
 import { Download, Linkedin, MessageCircle, Mail } from "lucide-react";
 import { Toaster, toast } from "sonner";
@@ -7,6 +7,7 @@ import { ConnectSection } from "./components/ConnectSection";
 import { QrSection } from "./components/QrSection";
 import { FullScreenQr } from "./components/FullScreenQr";
 import { PROFILE, EVENT_MODE, EVENT } from "./config";
+import { STRINGS, profileFor } from "./i18n";
 import { downloadVCard, buildWhatsAppLink, buildEmailLink } from "./lib/vcard";
 import "./App.css";
 
@@ -19,12 +20,23 @@ const fadeUp = (i) => ({
 });
 
 export default function App() {
+  const [lang, setLang] = useState("en");
   const [qrOpen, setQrOpen] = useState(false);
+
+  useEffect(() => {
+    const el = document.documentElement;
+    el.lang = lang;
+    el.dir = lang === "ar" ? "rtl" : "ltr";
+    document.body.classList.toggle("lang-ar", lang === "ar");
+  }, [lang]);
+
+  const t = STRINGS[lang];
+  const p = profileFor(lang);
 
   const handleSaveContact = () => {
     downloadVCard();
-    toast.success("Contact card ready", {
-      description: "Open the downloaded file to add Raghu to your contacts.",
+    toast.success(t.toastVCard, {
+      description: t.toastVCardDesc,
     });
   };
 
@@ -34,31 +46,64 @@ export default function App() {
         <div className="backdrop" aria-hidden="true" />
 
         <main className="card-shell">
+          <div
+            className="lang-switch"
+            data-testid="language-toggle"
+            role="group"
+            aria-label="Language"
+          >
+            <button
+              type="button"
+              data-testid="lang-en-button"
+              className={lang === "en" ? "lang-active" : ""}
+              onClick={() => setLang("en")}
+            >
+              EN
+            </button>
+            <button
+              type="button"
+              data-testid="lang-ar-button"
+              className={lang === "ar" ? "lang-active" : ""}
+              onClick={() => setLang("ar")}
+            >
+              عربي
+            </button>
+          </div>
+
+          <motion.div className="brand-head" {...fadeUp(0)}>
+            <img
+              src={PROFILE.logo}
+              alt={PROFILE.company}
+              className="brand-logo"
+              data-testid="company-logo"
+            />
+          </motion.div>
+
           {EVENT_MODE && (
             <motion.div
               className="event-badge"
               data-testid="gisec-event-badge"
-              {...fadeUp(0)}
+              {...fadeUp(1)}
             >
               <span className="event-dot" aria-hidden="true" />
               <span>{EVENT.badge}</span>
-              <span className="event-tagline">{EVENT.tagline}</span>
+              <span className="event-tagline">{t.eventTagline}</span>
             </motion.div>
           )}
 
-          <motion.header className="profile" {...fadeUp(1)}>
-            <Avatar />
+          <motion.header className="profile" {...fadeUp(2)}>
+            <Avatar p={p} />
             <h1 className="name" data-testid="profile-name">
-              {PROFILE.displayName}
+              {p.displayName}
             </h1>
             <p className="role" data-testid="profile-title">
-              {PROFILE.designation}
+              {p.designation}
             </p>
             <p className="org" data-testid="profile-organization">
-              {PROFILE.company}
+              {p.company}
             </p>
             <ul className="focus-list">
-              {PROFILE.focus.map((f, idx) => (
+              {p.focus.map((f, idx) => (
                 <li key={f}>
                   {idx > 0 && <span className="focus-dot" aria-hidden="true" />}
                   {f}
@@ -67,7 +112,7 @@ export default function App() {
             </ul>
           </motion.header>
 
-          <motion.section className="actions" {...fadeUp(2)}>
+          <motion.section className="actions" {...fadeUp(3)}>
             <button
               type="button"
               className="btn btn-primary"
@@ -75,7 +120,7 @@ export default function App() {
               onClick={handleSaveContact}
             >
               <Download size={18} aria-hidden="true" />
-              Save Contact
+              {t.saveContact}
             </button>
             <div className="action-row">
               <a
@@ -91,7 +136,7 @@ export default function App() {
               <a
                 className="btn btn-ghost icon-teal"
                 data-testid="whatsapp-connect-button"
-                href={buildWhatsAppLink([])}
+                href={buildWhatsAppLink([], lang)}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -101,16 +146,16 @@ export default function App() {
               <a
                 className="btn btn-ghost"
                 data-testid="email-direct-button"
-                href={buildEmailLink([])}
+                href={buildEmailLink([], lang)}
               >
                 <Mail size={17} aria-hidden="true" />
-                Email
+                {t.emailMe}
               </a>
             </div>
           </motion.section>
 
-          <ConnectSection />
-          <QrSection onShowQr={() => setQrOpen(true)} />
+          <ConnectSection lang={lang} t={t} />
+          <QrSection onShowQr={() => setQrOpen(true)} t={t} />
 
           <motion.footer className="footer" {...fadeUp(4)}>
             <a href={`tel:${PROFILE.phoneRaw}`} data-testid="footer-phone-link">
@@ -126,10 +171,12 @@ export default function App() {
         </main>
 
         <AnimatePresence>
-          {qrOpen && <FullScreenQr onClose={() => setQrOpen(false)} />}
+          {qrOpen && (
+            <FullScreenQr onClose={() => setQrOpen(false)} t={t} p={p} />
+          )}
         </AnimatePresence>
 
-        <Toaster theme="dark" position="top-center" />
+        <Toaster theme="light" position="bottom-center" />
       </div>
     </MotionConfig>
   );

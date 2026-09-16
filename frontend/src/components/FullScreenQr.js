@@ -1,12 +1,13 @@
 import { useEffect, useRef } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import { motion } from "framer-motion";
-import { Download, X } from "lucide-react";
+import { Download, Wallpaper, X } from "lucide-react";
 import { toast } from "sonner";
 import { PROFILE } from "../config";
 import { cardUrl, downloadCanvasPng } from "../lib/vcard";
+import { downloadLockScreenQr } from "../lib/wallpaper";
 
-export function FullScreenQr({ onClose }) {
+export function FullScreenQr({ onClose, t, p }) {
   const tileRef = useRef(null);
 
   useEffect(() => {
@@ -25,8 +26,22 @@ export function FullScreenQr({ onClose }) {
     const canvas = tileRef.current?.querySelector("canvas");
     if (!canvas) return;
     downloadCanvasPng(canvas, "raghu-m-qr.png");
-    toast.success("QR saved as PNG", {
-      description: "Perfect for your lock screen or gallery.",
+    toast.success(t.toastQr, {
+      description: t.toastQrDesc,
+    });
+  };
+
+  const handleWallpaper = async () => {
+    const canvas = tileRef.current?.querySelector("canvas");
+    if (!canvas) return;
+    await downloadLockScreenQr(canvas, {
+      name: p.displayName,
+      title: p.designation,
+      caption: t.fsqrCaption,
+      filename: "raghu-m-qr-lockscreen.png",
+    });
+    toast.success(t.toastWallpaper, {
+      description: t.toastWallpaperDesc,
     });
   };
 
@@ -55,10 +70,16 @@ export function FullScreenQr({ onClose }) {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       >
-        <span className="eyebrow">Digital business card</span>
-        <h1>{PROFILE.displayName}</h1>
-        <p className="fsqr-role">{PROFILE.designation}</p>
-        <p className="fsqr-focus">{PROFILE.focusShort.join("  |  ")}</p>
+        <img
+          src={p.logo}
+          alt={p.company}
+          className="fsqr-logo"
+          data-testid="fsqr-company-logo"
+        />
+        <span className="eyebrow">{t.fsqrEyebrow}</span>
+        <h1>{p.displayName}</h1>
+        <p className="fsqr-role">{p.designation}</p>
+        <p className="fsqr-focus">{p.focusShort.join("  |  ")}</p>
 
         <div
           className="qr-tile qr-tile-lg"
@@ -76,20 +97,29 @@ export function FullScreenQr({ onClose }) {
           />
         </div>
 
-        <p className="fsqr-caption">Scan to Connect</p>
+        <p className="fsqr-caption">{t.fsqrCaption}</p>
 
-        <button
-          type="button"
-          className="btn btn-primary btn-download"
-          data-testid="fullscreen-download-qr-button"
-          onClick={handleDownload}
-        >
-          <Download size={17} aria-hidden="true" />
-          Save QR as PNG
-        </button>
-        <p className="fsqr-hint">
-          Point the camera at the code — no app needed
-        </p>
+        <div className="btn-row fsqr-actions">
+          <button
+            type="button"
+            className="btn btn-ghost"
+            data-testid="fullscreen-download-qr-button"
+            onClick={handleDownload}
+          >
+            <Download size={16} aria-hidden="true" />
+            {t.saveQrPng}
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary"
+            data-testid="fullscreen-download-wallpaper-button"
+            onClick={handleWallpaper}
+          >
+            <Wallpaper size={17} aria-hidden="true" />
+            {t.saveLockScreen}
+          </button>
+        </div>
+        <p className="fsqr-hint">{t.fsqrHint}</p>
       </motion.div>
     </motion.div>
   );

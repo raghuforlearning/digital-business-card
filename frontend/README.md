@@ -63,3 +63,33 @@ build command `yarn build`, publish directory `build`.
 - **WhatsApp / Email** links are pre-filled, and any selected "Let's Connect"
   interest is injected into the message, e.g. *"Hi Raghu, we connected at
   GISEC. Interested in Cybersecurity."*
+
+## Language (English / العربية)
+
+A small toggle at the top of the card switches the whole page between English
+and Arabic, including right-to-left layout and Arabic buttons, chips and
+WhatsApp/Email pre-filled messages. The choice resets on page load.
+
+- Arabic **personal** details (name, title, company, focus areas) live in
+  `src/config.js` in the `*Ar` fields — edit them next to the English ones.
+- Arabic **interface copy and interest labels** live in `src/i18n.js`
+  (`STRINGS.ar` and `INTEREST_LABELS_AR` in `src/config.js`).
+
+## Lock-screen QR
+
+Open "Show My QR" and tap **Save as Lock Screen** to download a
+phone-wallpaper-sized PNG (1170×2532) with your QR, name and "Scan to
+Connect" on a clean white background. Set it as your wallpaper and people
+can scan your card straight from your lock screen.
+
+## Your photo
+
+Drop your headshot into the `public/` folder (e.g. `profile.jpg`) and set
+`photo: "/profile.jpg"` in `src/config.js`. The RM initials are only a
+placeholder until then.
+
+## Logo & colours
+
+The NationLabs logo lives at `public/nationlabs-logo.png` and is wired
+through `PROFILE.logo` in `src/config.js`. The white-and-navy palette is
+derived from the brand logo; adjust it in `src/App.css` if you ever rebrand.

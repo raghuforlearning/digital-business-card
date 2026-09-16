@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
 import { INTERESTS } from "../config";
 import { buildWhatsAppLink, whatsappMessage } from "../lib/vcard";
+import { interestLabel } from "../i18n";
 
 const slug = (s) =>
   s
@@ -10,13 +11,15 @@ const slug = (s) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
 
-export function ConnectSection() {
+export function ConnectSection({ lang, t }) {
   const [selected, setSelected] = useState([]);
 
   const toggle = (item) =>
     setSelected((prev) =>
       prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item],
     );
+
+  const labels = selected.map((i) => interestLabel(i, lang));
 
   return (
     <motion.section
@@ -27,13 +30,10 @@ export function ConnectSection() {
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="panel-head">
-        <span className="eyebrow">Networking, made instant</span>
-        <h2>Let&rsquo;s Connect</h2>
+        <span className="eyebrow">{t.networkingEyebrow}</span>
+        <h2>{t.letsConnect}</h2>
       </div>
-      <p className="panel-sub">
-        Tap a topic you&rsquo;d like to talk about — your WhatsApp message
-        updates automatically.
-      </p>
+      <p className="panel-sub">{t.connectSub}</p>
 
       <div className="chips">
         {INTERESTS.map((item) => {
@@ -47,7 +47,7 @@ export function ConnectSection() {
               aria-pressed={active}
               onClick={() => toggle(item)}
             >
-              {item}
+              {interestLabel(item, lang)}
             </button>
           );
         })}
@@ -56,19 +56,21 @@ export function ConnectSection() {
       <a
         className="btn btn-wa"
         data-testid="whatsapp-interest-button"
-        href={buildWhatsAppLink(selected)}
+        href={buildWhatsAppLink(labels, lang)}
         target="_blank"
         rel="noopener noreferrer"
       >
         <MessageCircle size={17} aria-hidden="true" />
-        WhatsApp Raghu
+        {t.whatsappRaghu}
         {selected.length > 0 &&
-          ` · ${selected.length} topic${selected.length > 1 ? "s" : ""}`}
+          ` · ${selected.length} ${
+            selected.length > 1 ? t.topics : t.topic
+          }`}
       </a>
 
       <div className="preview-row">
         <p className="msg-preview" data-testid="whatsapp-message-preview">
-          &ldquo;{whatsappMessage(selected)}&rdquo;
+          &ldquo;{whatsappMessage(labels, lang)}&rdquo;
         </p>
         {selected.length > 0 && (
           <button
@@ -77,7 +79,7 @@ export function ConnectSection() {
             data-testid="clear-interests-button"
             onClick={() => setSelected([])}
           >
-            Clear
+            {t.clear}
           </button>
         )}
       </div>

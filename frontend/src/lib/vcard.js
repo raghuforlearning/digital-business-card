@@ -45,23 +45,41 @@ export function downloadVCard() {
   setTimeout(() => URL.revokeObjectURL(url), 4000);
 }
 
-export function whatsappMessage(interests = []) {
-  const base = EVENT_MODE ? WHATSAPP.greetingEvent : WHATSAPP.greeting;
+export function whatsappMessage(interests = [], lang = "en") {
+  const ar = lang === "ar";
+  const base = ar
+    ? EVENT_MODE
+      ? WHATSAPP.greetingEventAr
+      : WHATSAPP.greetingAr
+    : EVENT_MODE
+      ? WHATSAPP.greetingEvent
+      : WHATSAPP.greeting;
   if (!interests.length) return base;
+  if (ar) {
+    const list = interests.map((t, i) => (i === 0 ? t : `و${t}`)).join(" ");
+    return `${base} مهتم بـ${list}.`;
+  }
   return `${base} Interested in ${interests.join(", ")}.`;
 }
 
-export function buildWhatsAppLink(interests = []) {
+export function buildWhatsAppLink(interests = [], lang = "en") {
   return `https://wa.me/${PROFILE.whatsappNumber}?text=${encodeURIComponent(
-    whatsappMessage(interests),
+    whatsappMessage(interests, lang),
   )}`;
 }
 
-export function buildEmailLink(interests = []) {
-  const subject = EVENT_MODE ? EMAIL.subjectEvent : EMAIL.subject;
+export function buildEmailLink(interests = [], lang = "en") {
+  const subject =
+    lang === "ar"
+      ? EVENT_MODE
+        ? EMAIL.subjectEventAr
+        : EMAIL.subjectAr
+      : EVENT_MODE
+        ? EMAIL.subjectEvent
+        : EMAIL.subject;
   return `mailto:${PROFILE.email}?subject=${encodeURIComponent(
     subject,
-  )}&body=${encodeURIComponent(whatsappMessage(interests))}`;
+  )}&body=${encodeURIComponent(whatsappMessage(interests, lang))}`;
 }
 
 // The QR always points at whoever is hosting the card right now,

@@ -1,12 +1,12 @@
 import { PROFILE } from "../config";
 
-export function Avatar() {
+export function Avatar({ p = PROFILE }) {
   return (
     <div className="avatar" data-testid="profile-avatar">
-      {PROFILE.photo ? (
-        <img src={PROFILE.photo} alt={PROFILE.fullName} />
+      {p.photo ? (
+        <img src={p.photo} alt={p.fullName} />
       ) : (
-        <span>{PROFILE.initials}</span>
+        <span>{p.initials}</span>
       )}
     </div>
   );

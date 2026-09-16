@@ -30,7 +30,14 @@ Build a modern, mobile-first digital business card / personal networking page fo
 ## Implemented (2026-09-16)
 - All of the above. Verified: vCard download content exact; WhatsApp/Email prefills; interest injection & clear; QR render + PNG downloads (inline 600px, full-screen 1080px); full-screen mode open/close; zero console errors; mobile 390px and desktop 1440px visual checks clean.
 
+## Implemented (2026-09-16, iteration 2 — light NationLabs theme)
+- **White background + NationLabs logo** (customer attachment): logo at public/nationlabs-logo.png shown at card top, in full-screen QR mode and as favicon; palette switched to navy #1E2A55 (brand-derived) with cyan/teal accents on white.
+- **EN / عربي toggle**: full UI translation (src/i18n.js), RTL layout, Arabic profile fields in config.js (fullNameAr etc.), Arabic interest labels (INTEREST_LABELS_AR), Arabic WhatsApp/Email prefills, IBM Plex Sans Arabic font.
+- **Lock-screen QR**: "Save as Lock Screen" in full-screen mode composes a 1170×2532 phone-wallpaper PNG (white, navy name, QR tile, caption) locally via canvas.
+- **Bug fix**: QR canvas overflowed the viewport (~667px) since v1 — qrcode.react sets inline width/height styles that beat the stylesheet; fixed with !important CSS. Verified zero horizontal overflow in EN and AR at 390px.
+- Verified: vCard fields, AR WhatsApp prefill encoding, wallpaper dimensions (1170×2532, ~730KB), QR pixel rendering (32-35% dark density), no page errors, mobile + desktop screenshots clean.
+
 ## Backlog / Next
-- P2: Real profile photo drop-in (`PROFILE.photo`).
+- P1: Real profile photo (customer hasn't supplied it yet — drop into public/ + PROFILE.photo).
 - P2: Apple Wallet pass or NFC-ready short link (needs external service).
-- P2: Optional page language toggle (English/Arabic) if wanted for local events.
+- P2: Optional persisted language choice or auto-detect from browser locale.
