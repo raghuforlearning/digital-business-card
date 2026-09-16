@@ -68,6 +68,9 @@ build command `yarn build`, publish directory `build`.
 `yarn build`, output directory `build`.
 
 **Any other host** — upload the contents of `build/` and serve them as static files.
+Tip: a ready-to-upload `build-upload.zip` (all files at the zip root, including
+the hidden `.htaccess`) sits next to the build folder — upload it to your
+host's file manager and use "Extract".
 
 ## How it works
 
