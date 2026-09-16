@@ -38,7 +38,14 @@ Build a modern, mobile-first digital business card / personal networking page fo
 - **Bug fix (iteration 3)**: the wrong attachment had been used as the logo — the top of the card showed a BOQ table crop. Replaced with the real NationLabs logo (fingerprint-N + wordmark, public/nationlabs-logo.png), regenerated the favicon from the N mark, and resized brand-logo (132px) and fsqr-logo (96px) for the square format. Verified: correct logo renders on mobile + desktop, no BOQ table anywhere, no overflow, no page errors.
 - Verified: vCard fields, AR WhatsApp prefill encoding, wallpaper dimensions (1170×2532, ~730KB), QR pixel rendering (32-35% dark density), no page errors, mobile + desktop screenshots clean.
 
+## Implemented (2026-09-16, iteration 6 — multi-employee template)
+- Converted the card into a company template: `src/employees.js` holds one block per employee (EN+AR fields, photo, LinkedIn...), profile chosen by URL — `?u=raghu` (works everywhere) or `/raghu` (rewrite files included: public/.htaccess for Hostinger, public/_redirects, vercel.json, netlify.toml). Unknown ids fall back to the default profile.
+- Each employee's QR auto-points to their own URL; vCard, WhatsApp greeting ("Hi Sara, ...") and email prefills are per-person. Added a commented TEMPLATE block in employees.js for adding staff.
+- Fixed a latent bug: the Email button label had been missing (icon-only) since the localization round — restored in EN + AR.
+- Verified: default/`?u=`/path/unknown-id resolution, vCard fields, WhatsApp injections EN+AR, Arabic email button "راسلني", zero page errors, mobile + desktop screenshots clean.
+
 ## Backlog / Next
+- P1: Customer deploys to their own domain (Hostinger or free Vercel/Netlify/CF Pages) so the card stops loading from the Emergent preview URL — then re-generate QRs to the final domain.
 - P1: ~~Real profile photo~~ DONE (2026-09-16, iteration 3): customer headshot installed at public/profile.jpg (600×600, 55KB), avatar shows photo — verified loaded, centered, initials removed, no overflow/errors.
 - P2: ~~Optional persisted language choice~~ DONE (2026-09-16, iteration 4): language saved in on-device localStorage, Arabic phone-locale auto-defaults to Arabic on first visit. Also added Android PWA manifest + NationLabs icons (192/512) so the card installs as a home-screen app ("Add to Home screen") — the Android-native replacement for the iOS-only Wallet idea.
 - P2: Apple Wallet pass — NOT applicable (customer's phone is an Honor Magic V5 Android; Google Wallet does not support personal passes of this type). NFC tag pairing recommended instead (write the card URL with any NFC Tools app).

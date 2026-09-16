@@ -5,22 +5,20 @@ import { Download, Maximize2 } from "lucide-react";
 import { toast } from "sonner";
 import { cardUrl, buildVCard, downloadCanvasPng } from "../lib/vcard";
 
-export function QrSection({ onShowQr, t }) {
+export function QrSection({ onShowQr, t, p }) {
   const [tab, setTab] = useState("link");
   const tileRef = useRef(null);
-  const value = tab === "link" ? cardUrl() : buildVCard();
+  const value = tab === "link" ? cardUrl(p.id) : buildVCard(p);
 
   const handleDownload = () => {
     const canvas = tileRef.current?.querySelector("canvas");
     if (!canvas) return;
     downloadCanvasPng(
       canvas,
-      tab === "link"
-        ? "raghu-m-digital-card-qr.png"
-        : "raghu-m-contact-qr.png",
+      tab === "link" ? `${p.id}-digital-card-qr.png` : `${p.id}-contact-qr.png`,
     );
-    toast.success("QR code saved", {
-      description: "Check your downloads folder or gallery.",
+    toast.success(t("toastQr"), {
+      description: t("toastQrDesc"),
     });
   };
 
@@ -33,8 +31,8 @@ export function QrSection({ onShowQr, t }) {
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="panel-head">
-        <span className="eyebrow">{t.qrEyebrow}</span>
-        <h2>{t.scanToConnect}</h2>
+        <span className="eyebrow">{t("qrEyebrow")}</span>
+        <h2>{t("scanToConnect")}</h2>
       </div>
 
       <div className="seg" role="tablist" aria-label="QR code type">
@@ -46,7 +44,7 @@ export function QrSection({ onShowQr, t }) {
           className={tab === "link" ? "seg-active" : ""}
           onClick={() => setTab("link")}
         >
-          {t.tabLink}
+          {t("tabLink")}
         </button>
         <button
           type="button"
@@ -56,7 +54,7 @@ export function QrSection({ onShowQr, t }) {
           className={tab === "vcard" ? "seg-active" : ""}
           onClick={() => setTab("vcard")}
         >
-          {t.tabVCard}
+          {t("tabVCard")}
         </button>
       </div>
 
@@ -72,7 +70,9 @@ export function QrSection({ onShowQr, t }) {
         />
       </div>
       <p className="qr-caption">
-        {tab === "link" ? t.captionLink : t.captionVCard}
+        {tab === "link"
+          ? t("captionLink")
+          : t("captionVCard", { name: p.shortName })}
       </p>
 
       <div className="btn-row">
@@ -83,7 +83,7 @@ export function QrSection({ onShowQr, t }) {
           onClick={handleDownload}
         >
           <Download size={16} aria-hidden="true" />
-          {t.downloadPng}
+          {t("downloadPng")}
         </button>
         <button
           type="button"
@@ -92,7 +92,7 @@ export function QrSection({ onShowQr, t }) {
           onClick={onShowQr}
         >
           <Maximize2 size={16} aria-hidden="true" />
-          {t.showMyQr}
+          {t("showMyQr")}
         </button>
       </div>
     </motion.section>

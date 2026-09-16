@@ -1,6 +1,4 @@
-import { PROFILE } from "../config";
-
-export function Avatar({ p = PROFILE }) {
+export function Avatar({ p }) {
   return (
     <div className="avatar" data-testid="profile-avatar">
       {p.photo ? (

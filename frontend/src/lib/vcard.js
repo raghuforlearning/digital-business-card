@@ -1,4 +1,5 @@
-import { PROFILE, EVENT_MODE, WHATSAPP, EMAIL } from "../config";
+import { EVENT_MODE, WHATSAPP, EMAIL } from "../config";
+import { EMPLOYEES } from "../employees";
 
 const escapeVCard = (s = "") =>
   s
@@ -8,8 +9,8 @@ const escapeVCard = (s = "") =>
     .replace(/\n/g, "\\n");
 
 // vCard 3.0 — opens natively on Android and iPhone ("Add to Contacts")
-export function buildVCard() {
-  const words = PROFILE.fullName.trim().split(/\s+/);
+export function buildVCard(p) {
+  const words = p.fullName.trim().split(/\s+/);
   const lastName = escapeVCard(words[words.length - 1] || "");
   const firstNames = escapeVCard(words.slice(0, -1).join(" "));
   const rev = new Date()
@@ -20,73 +21,84 @@ export function buildVCard() {
     "BEGIN:VCARD",
     "VERSION:3.0",
     `N:${lastName};${firstNames};;;`,
-    `FN:${escapeVCard(PROFILE.fullName)}`,
-    `ORG:${escapeVCard(PROFILE.company)}`,
-    `TITLE:${escapeVCard(PROFILE.designation)}`,
-    `TEL;TYPE=CELL,VOICE:${PROFILE.phoneRaw}`,
-    `EMAIL;TYPE=INTERNET:${PROFILE.email}`,
-    `URL:${PROFILE.linkedin}`,
-    `NOTE:${escapeVCard(PROFILE.focus.join(" | "))}`,
+    `FN:${escapeVCard(p.fullName)}`,
+    `ORG:${escapeVCard(p.company)}`,
+    `TITLE:${escapeVCard(p.designation)}`,
+    `TEL;TYPE=CELL,VOICE:${p.phoneRaw}`,
+    `EMAIL;TYPE=INTERNET:${p.email}`,
+    `URL:${p.linkedin}`,
+    `NOTE:${escapeVCard(p.focus.join(" | "))}`,
     `REV:${rev}`,
     "END:VCARD",
   ];
   return lines.join("\r\n");
 }
 
-export function downloadVCard() {
-  const blob = new Blob([buildVCard()], { type: "text/vcard;charset=utf-8" });
+export function downloadVCard(p) {
+  const blob = new Blob([buildVCard(p)], { type: "text/vcard;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `${PROFILE.fullName.replace(/\s+/g, "-")}.vcf`;
+  a.download = `${p.fullName.replace(/\s+/g, "-")}.vcf`;
   document.body.appendChild(a);
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 4000);
 }
 
-export function whatsappMessage(interests = [], lang = "en") {
+function baseGreeting(p, lang) {
   const ar = lang === "ar";
-  const base = ar
+  const name = ar ? p.shortNameAr || p.shortName : p.shortName;
+  const tpl = ar
     ? EVENT_MODE
       ? WHATSAPP.greetingEventAr
       : WHATSAPP.greetingAr
     : EVENT_MODE
       ? WHATSAPP.greetingEvent
       : WHATSAPP.greeting;
+  return tpl.replace("{name}", name);
+}
+
+export function whatsappMessage(interests = [], lang = "en", p) {
+  const base = baseGreeting(p, lang);
   if (!interests.length) return base;
-  if (ar) {
+  if (lang === "ar") {
     const list = interests.map((t, i) => (i === 0 ? t : `و${t}`)).join(" ");
     return `${base} مهتم بـ${list}.`;
   }
   return `${base} Interested in ${interests.join(", ")}.`;
 }
 
-export function buildWhatsAppLink(interests = [], lang = "en") {
-  return `https://wa.me/${PROFILE.whatsappNumber}?text=${encodeURIComponent(
-    whatsappMessage(interests, lang),
+export function buildWhatsAppLink(interests = [], lang = "en", p) {
+  return `https://wa.me/${p.whatsappNumber}?text=${encodeURIComponent(
+    whatsappMessage(interests, lang, p),
   )}`;
 }
 
-export function buildEmailLink(interests = [], lang = "en") {
-  const subject =
-    lang === "ar"
-      ? EVENT_MODE
-        ? EMAIL.subjectEventAr
-        : EMAIL.subjectAr
-      : EVENT_MODE
-        ? EMAIL.subjectEvent
-        : EMAIL.subject;
-  return `mailto:${PROFILE.email}?subject=${encodeURIComponent(
+export function buildEmailLink(interests = [], lang = "en", p) {
+  const ar = lang === "ar";
+  const subject = ar
+    ? EVENT_MODE
+      ? EMAIL.subjectEventAr
+      : EMAIL.subjectAr
+    : EVENT_MODE
+      ? EMAIL.subjectEvent
+      : EMAIL.subject;
+  return `mailto:${p.email}?subject=${encodeURIComponent(
     subject,
-  )}&body=${encodeURIComponent(whatsappMessage(interests, lang))}`;
+  )}&body=${encodeURIComponent(whatsappMessage(interests, lang, p))}`;
 }
 
-// The QR always points at whoever is hosting the card right now,
-// so it keeps working on any domain you deploy to.
-export function cardUrl() {
+// The QR points at this person's permanent URL on whatever domain
+// is hosting the card: /raghu when path-based, ?u=raghu otherwise.
+export function cardUrl(profileId) {
   if (typeof window === "undefined") return "";
-  return window.location.origin + window.location.pathname;
+  const ids = EMPLOYEES.map((e) => e.id);
+  const seg = window.location.pathname.split("/").filter(Boolean).pop();
+  if (seg && ids.includes(seg)) {
+    return window.location.origin + window.location.pathname;
+  }
+  return `${window.location.origin}/?u=${encodeURIComponent(profileId)}`;
 }
 
 export function downloadCanvasPng(canvas, filename) {

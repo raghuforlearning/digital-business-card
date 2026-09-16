@@ -11,7 +11,7 @@ const slug = (s) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
 
-export function ConnectSection({ lang, t }) {
+export function ConnectSection({ lang, t, profile }) {
   const [selected, setSelected] = useState([]);
 
   const toggle = (item) =>
@@ -30,10 +30,10 @@ export function ConnectSection({ lang, t }) {
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="panel-head">
-        <span className="eyebrow">{t.networkingEyebrow}</span>
-        <h2>{t.letsConnect}</h2>
+        <span className="eyebrow">{t("networkingEyebrow")}</span>
+        <h2>{t("letsConnect")}</h2>
       </div>
-      <p className="panel-sub">{t.connectSub}</p>
+      <p className="panel-sub">{t("connectSub")}</p>
 
       <div className="chips">
         {INTERESTS.map((item) => {
@@ -56,21 +56,21 @@ export function ConnectSection({ lang, t }) {
       <a
         className="btn btn-wa"
         data-testid="whatsapp-interest-button"
-        href={buildWhatsAppLink(labels, lang)}
+        href={buildWhatsAppLink(labels, lang, profile)}
         target="_blank"
         rel="noopener noreferrer"
       >
         <MessageCircle size={17} aria-hidden="true" />
-        {t.whatsappRaghu}
+        {t("whatsappRaghu", { name: profile.shortName })}
         {selected.length > 0 &&
           ` · ${selected.length} ${
-            selected.length > 1 ? t.topics : t.topic
+            selected.length > 1 ? t("topics") : t("topic")
           }`}
       </a>
 
       <div className="preview-row">
         <p className="msg-preview" data-testid="whatsapp-message-preview">
-          &ldquo;{whatsappMessage(labels, lang)}&rdquo;
+          &ldquo;{whatsappMessage(labels, lang, profile)}&rdquo;
         </p>
         {selected.length > 0 && (
           <button
@@ -79,7 +79,7 @@ export function ConnectSection({ lang, t }) {
             data-testid="clear-interests-button"
             onClick={() => setSelected([])}
           >
-            {t.clear}
+            {t("clear")}
           </button>
         )}
       </div>

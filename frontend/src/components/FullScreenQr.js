@@ -3,7 +3,6 @@ import { QRCodeCanvas } from "qrcode.react";
 import { motion } from "framer-motion";
 import { Download, Wallpaper, X } from "lucide-react";
 import { toast } from "sonner";
-import { PROFILE } from "../config";
 import { cardUrl, downloadCanvasPng } from "../lib/vcard";
 import { downloadLockScreenQr } from "../lib/wallpaper";
 
@@ -25,9 +24,9 @@ export function FullScreenQr({ onClose, t, p }) {
   const handleDownload = () => {
     const canvas = tileRef.current?.querySelector("canvas");
     if (!canvas) return;
-    downloadCanvasPng(canvas, "raghu-m-qr.png");
-    toast.success(t.toastQr, {
-      description: t.toastQrDesc,
+    downloadCanvasPng(canvas, `${p.id}-qr.png`);
+    toast.success(t("toastQr"), {
+      description: t("toastQrDesc"),
     });
   };
 
@@ -37,11 +36,11 @@ export function FullScreenQr({ onClose, t, p }) {
     await downloadLockScreenQr(canvas, {
       name: p.displayName,
       title: p.designation,
-      caption: t.fsqrCaption,
-      filename: "raghu-m-qr-lockscreen.png",
+      caption: t("fsqrCaption"),
+      filename: `${p.id}-qr-lockscreen.png`,
     });
-    toast.success(t.toastWallpaper, {
-      description: t.toastWallpaperDesc,
+    toast.success(t("toastWallpaper"), {
+      description: t("toastWallpaperDesc"),
     });
   };
 
@@ -76,7 +75,7 @@ export function FullScreenQr({ onClose, t, p }) {
           className="fsqr-logo"
           data-testid="fsqr-company-logo"
         />
-        <span className="eyebrow">{t.fsqrEyebrow}</span>
+        <span className="eyebrow">{t("fsqrEyebrow")}</span>
         <h1>{p.displayName}</h1>
         <p className="fsqr-role">{p.designation}</p>
         <p className="fsqr-focus">{p.focusShort.join("  |  ")}</p>
@@ -87,7 +86,7 @@ export function FullScreenQr({ onClose, t, p }) {
           ref={tileRef}
         >
           <QRCodeCanvas
-            value={cardUrl()}
+            value={cardUrl(p.id)}
             size={1080}
             level="M"
             marginSize={2}
@@ -97,7 +96,7 @@ export function FullScreenQr({ onClose, t, p }) {
           />
         </div>
 
-        <p className="fsqr-caption">{t.fsqrCaption}</p>
+        <p className="fsqr-caption">{t("fsqrCaption")}</p>
 
         <div className="btn-row fsqr-actions">
           <button
@@ -107,7 +106,7 @@ export function FullScreenQr({ onClose, t, p }) {
             onClick={handleDownload}
           >
             <Download size={16} aria-hidden="true" />
-            {t.saveQrPng}
+            {t("saveQrPng")}
           </button>
           <button
             type="button"
@@ -116,10 +115,10 @@ export function FullScreenQr({ onClose, t, p }) {
             onClick={handleWallpaper}
           >
             <Wallpaper size={17} aria-hidden="true" />
-            {t.saveLockScreen}
+            {t("saveLockScreen")}
           </button>
         </div>
-        <p className="fsqr-hint">{t.fsqrHint}</p>
+        <p className="fsqr-hint">{t("fsqrHint")}</p>
       </motion.div>
     </motion.div>
   );

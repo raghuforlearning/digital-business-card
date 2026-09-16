@@ -1,17 +1,18 @@
-import { PROFILE, INTEREST_LABELS_AR } from "./config";
+import { INTEREST_LABELS_AR } from "./config";
 
-// UI copy — English / Arabic
+// UI copy — English / Arabic. {name} is filled with the employee's shortName.
 export const STRINGS = {
   en: {
     eventTagline: "Let's connect at GISEC",
     saveContact: "Save Contact",
+    emailMe: "Email",
     toastVCard: "Contact card ready",
-    toastVCardDesc: "Open the downloaded file to add Raghu to your contacts.",
+    toastVCardDesc: "Open the downloaded file to add {name} to your contacts.",
     networkingEyebrow: "Networking, made instant",
     letsConnect: "Let's Connect",
     connectSub:
       "Tap a topic you'd like to talk about — your WhatsApp message updates automatically.",
-    whatsappRaghu: "WhatsApp Raghu",
+    whatsappRaghu: "WhatsApp {name}",
     topic: "topic",
     topics: "topics",
     clear: "Clear",
@@ -20,7 +21,7 @@ export const STRINGS = {
     tabLink: "Card Link",
     tabVCard: "Add Contact",
     captionLink: "Opens this digital card",
-    captionVCard: "Adds Raghu straight to contacts",
+    captionVCard: "Adds {name} straight to contacts",
     downloadPng: "Download PNG",
     showMyQr: "Show My QR",
     toastQr: "QR code saved",
@@ -37,13 +38,14 @@ export const STRINGS = {
   ar: {
     eventTagline: "لنتواصل في GISEC",
     saveContact: "احفظ جهة الاتصال",
+    emailMe: "راسلني",
     toastVCard: "بطاقة جهة الاتصال جاهزة",
-    toastVCardDesc: "افتح الملف المُنزّل لإضافة راغبو إلى جهات اتصالك.",
+    toastVCardDesc: "افتح الملف المُنزّل لإضافة {name} إلى جهات اتصالك.",
     networkingEyebrow: "تواصل فوري",
     letsConnect: "لنتواصل",
     connectSub:
       "اختر موضوعًا تودّ مناقشته — ستُحدَّث رسالة واتساب تلقائيًا.",
-    whatsappRaghu: "راسل راغبو واتساب",
+    whatsappRaghu: "راسل {name} واتساب",
     topic: "موضوع",
     topics: "مواضيع",
     clear: "مسح",
@@ -52,7 +54,7 @@ export const STRINGS = {
     tabLink: "رابط البطاقة",
     tabVCard: "حفظ جهة الاتصال",
     captionLink: "يفتح هذه البطاقة الرقمية",
-    captionVCard: "يضيف راغبو مباشرة إلى جهات الاتصال",
+    captionVCard: "يضيف {name} مباشرة إلى جهات الاتصال",
     downloadPng: "حفظ PNG",
     showMyQr: "اعرض رمزي",
     toastQr: "تم حفظ رمز QR",
@@ -68,25 +70,35 @@ export const STRINGS = {
   },
 };
 
+// Small translation helper: translate("en", "whatsappRaghu", { name: "Raghu" })
+export function translate(lang, key, vars) {
+  const dict = STRINGS[lang] || STRINGS.en;
+  const template = dict[key] || STRINGS.en[key] || "";
+  return template.replace(/\{(\w+)\}/g, (m, k) =>
+    vars && vars[k] != null ? String(vars[k]) : m,
+  );
+}
+
 export function interestLabel(item, lang) {
   if (lang === "ar") return INTEREST_LABELS_AR[item] || item;
   return item;
 }
 
 // Localized profile view — English values as fallback
-export function profileFor(lang) {
-  if (lang === "ar" && PROFILE.displayNameAr) {
+export function profileFor(lang, profile = {}) {
+  if (lang === "ar" && (profile.displayNameAr || profile.fullNameAr)) {
     return {
-      ...PROFILE,
-      fullName: PROFILE.fullNameAr || PROFILE.fullName,
-      displayName: PROFILE.displayNameAr,
-      designation: PROFILE.designationAr || PROFILE.designation,
-      company: PROFILE.companyAr || PROFILE.company,
-      focus: PROFILE.focusAr?.length ? PROFILE.focusAr : PROFILE.focus,
-      focusShort: PROFILE.focusShortAr?.length
-        ? PROFILE.focusShortAr
-        : PROFILE.focusShort,
+      ...profile,
+      fullName: profile.fullNameAr || profile.fullName,
+      displayName: profile.displayNameAr || profile.displayName,
+      designation: profile.designationAr || profile.designation,
+      company: profile.companyAr || profile.company,
+      focus: profile.focusAr?.length ? profile.focusAr : profile.focus,
+      focusShort: profile.focusShortAr?.length
+        ? profile.focusShortAr
+        : profile.focusShort,
+      shortName: profile.shortNameAr || profile.shortName,
     };
   }
-  return PROFILE;
+  return profile;
 }

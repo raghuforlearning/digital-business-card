@@ -3,7 +3,28 @@
 A fast, single-page digital business card built for GISEC 2026 networking.
 Static frontend only — no backend, no database, no analytics, no cookies.
 
-## Update your details (one file only)
+## Add employees (multi-employee mode)
+
+Every employee card comes from **`src/employees.js`** — one block per person:
+
+1. Put their headshot in `public/` (e.g. `sara.jpg`).
+2. Copy the commented TEMPLATE block in `src/employees.js`, fill in their
+   details (Arabic fields optional — they fall back to English), and set
+   `photo: "/sara.jpg"`.
+3. Deploy again. Their card is instantly available at:
+
+- `https://your-domain.com/?u=sara` — works on every host, zero config
+- `https://your-domain.com/sara` — cleaner-looking; works on Hostinger
+  (the included `.htaccess` handles it), Vercel (`vercel.json` included),
+  Netlify (`netlify.toml` included) and Cloudflare Pages
+  (`public/_redirects` included)
+
+Each person's QR code automatically points to their own URL, their vCard
+carries their details, and the pre-filled WhatsApp greeting greets them by
+name ("Hi Sara, we connected at GISEC."). The default card (no URL id) is
+set by `DEFAULT_PROFILE_ID` in `src/employees.js`.
+
+## Update your details (per employee)
 
 Everything lives in **`src/config.js`**:
 

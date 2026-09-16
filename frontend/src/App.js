@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, MotionConfig, motion } from "framer-motion";
 import { Download, Linkedin, MessageCircle, Mail, ShieldCheck } from "lucide-react";
 import { Toaster, toast } from "sonner";
@@ -6,8 +6,9 @@ import { Avatar } from "./components/Avatar";
 import { ConnectSection } from "./components/ConnectSection";
 import { QrSection } from "./components/QrSection";
 import { FullScreenQr } from "./components/FullScreenQr";
-import { PROFILE, EVENT_MODE, EVENT } from "./config";
-import { STRINGS, profileFor } from "./i18n";
+import { EVENT_MODE, EVENT } from "./config";
+import { translate, profileFor } from "./i18n";
+import { EMPLOYEES, resolveProfileId } from "./employees";
 import { downloadVCard, buildWhatsAppLink, buildEmailLink } from "./lib/vcard";
 import "./App.css";
 
@@ -33,6 +34,13 @@ export default function App() {
   });
   const [qrOpen, setQrOpen] = useState(false);
 
+  const profile = useMemo(
+    () => EMPLOYEES.find((e) => e.id === resolveProfileId()) || EMPLOYEES[0],
+    [],
+  );
+  const p = profileFor(lang, profile);
+  const t = (key, vars) => translate(lang, key, vars);
+
   useEffect(() => {
     const el = document.documentElement;
     el.lang = lang;
@@ -45,13 +53,10 @@ export default function App() {
     }
   }, [lang]);
 
-  const t = STRINGS[lang];
-  const p = profileFor(lang);
-
   const handleSaveContact = () => {
-    downloadVCard();
-    toast.success(t.toastVCard, {
-      description: t.toastVCardDesc,
+    downloadVCard(profile);
+    toast.success(t("toastVCard"), {
+      description: t("toastVCardDesc", { name: p.shortName }),
     });
   };
 
@@ -87,8 +92,8 @@ export default function App() {
 
           <motion.div className="brand-head" {...fadeUp(0)}>
             <img
-              src={PROFILE.logo}
-              alt={PROFILE.company}
+              src={p.logo}
+              alt={p.company}
               className="brand-logo"
               data-testid="company-logo"
             />
@@ -102,7 +107,7 @@ export default function App() {
             >
               <span className="event-dot" aria-hidden="true" />
               <span>{EVENT.badge}</span>
-              <span className="event-tagline">{t.eventTagline}</span>
+              <span className="event-tagline">{t("eventTagline")}</span>
             </motion.div>
           )}
 
@@ -135,13 +140,13 @@ export default function App() {
               onClick={handleSaveContact}
             >
               <Download size={18} aria-hidden="true" />
-              {t.saveContact}
+              {t("saveContact")}
             </button>
             <div className="action-row">
               <a
                 className="btn btn-ghost"
                 data-testid="linkedin-connect-button"
-                href={PROFILE.linkedin}
+                href={p.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -151,7 +156,7 @@ export default function App() {
               <a
                 className="btn btn-ghost icon-teal"
                 data-testid="whatsapp-connect-button"
-                href={buildWhatsAppLink([], lang)}
+                href={buildWhatsAppLink([], lang, profile)}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -161,30 +166,36 @@ export default function App() {
               <a
                 className="btn btn-ghost"
                 data-testid="email-direct-button"
-                href={buildEmailLink([], lang)}
+                href={buildEmailLink([], lang, profile)}
               >
                 <Mail size={17} aria-hidden="true" />
-                {t.emailMe}
+                {t("emailMe")}
               </a>
             </div>
           </motion.section>
 
-          <ConnectSection lang={lang} t={t} />
-          <QrSection onShowQr={() => setQrOpen(true)} t={t} />
+          <ConnectSection lang={lang} t={t} profile={profile} />
+          <QrSection onShowQr={() => setQrOpen(true)} t={t} p={p} />
 
-          <motion.footer className="footer" {...fadeUp(4)}>
+          <motion.footer className="footer" {...fadeUp(5)}>
             <div className="footer-privacy" data-testid="privacy-line">
               <ShieldCheck size={13} aria-hidden="true" />
-              <span>{t.privacyLine}</span>
+              <span>{t("privacyLine")}</span>
             </div>
-            <a href={`tel:${PROFILE.phoneRaw}`} data-testid="footer-phone-link">
-              {PROFILE.phoneDisplay}
+            <a
+              href={`tel:${p.phoneRaw}`}
+              data-testid="footer-phone-link"
+            >
+              {p.phoneDisplay}
             </a>
             <span className="footer-sep" aria-hidden="true">
               ·
             </span>
-            <a href={`mailto:${PROFILE.email}`} data-testid="footer-email-link">
-              {PROFILE.email}
+            <a
+              href={`mailto:${p.email}`}
+              data-testid="footer-email-link"
+            >
+              {p.email}
             </a>
           </motion.footer>
         </main>
