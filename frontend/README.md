@@ -68,12 +68,21 @@ build command `yarn build`, publish directory `build`.
 
 A small toggle at the top of the card switches the whole page between English
 and Arabic, including right-to-left layout and Arabic buttons, chips and
-WhatsApp/Email pre-filled messages. The choice resets on page load.
+WhatsApp/Email pre-filled messages.
 
+- The choice is remembered on the device (browser local storage — stays on
+  the phone, never sent anywhere), and first-time visitors with an Arabic
+  phone language see the Arabic card by default.
 - Arabic **personal** details (name, title, company, focus areas) live in
   `src/config.js` in the `*Ar` fields — edit them next to the English ones.
 - Arabic **interface copy and interest labels** live in `src/i18n.js`
   (`STRINGS.ar` and `INTEREST_LABELS_AR` in `src/config.js`).
+
+## Install as an app (Android)
+
+Open the card in Chrome on Android → menu (⋮) → **"Add to Home screen"**.
+It installs with the NationLabs icon and opens full-screen like a native app —
+your QR is then always one tap away on your phone.
 
 ## Lock-screen QR
 

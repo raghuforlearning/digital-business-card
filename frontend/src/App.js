@@ -20,7 +20,17 @@ const fadeUp = (i) => ({
 });
 
 export default function App() {
-  const [lang, setLang] = useState("en");
+  const [lang, setLang] = useState(() => {
+    try {
+      const saved = localStorage.getItem("card-lang");
+      if (saved === "en" || saved === "ar") return saved;
+    } catch (e) {
+      /* private mode — fall through */
+    }
+    return (navigator.language || "").toLowerCase().startsWith("ar")
+      ? "ar"
+      : "en";
+  });
   const [qrOpen, setQrOpen] = useState(false);
 
   useEffect(() => {
@@ -28,6 +38,11 @@ export default function App() {
     el.lang = lang;
     el.dir = lang === "ar" ? "rtl" : "ltr";
     document.body.classList.toggle("lang-ar", lang === "ar");
+    try {
+      localStorage.setItem("card-lang", lang);
+    } catch (e) {
+      /* private mode — skip saving */
+    }
   }, [lang]);
 
   const t = STRINGS[lang];

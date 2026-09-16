@@ -40,5 +40,6 @@ Build a modern, mobile-first digital business card / personal networking page fo
 
 ## Backlog / Next
 - P1: ~~Real profile photo~~ DONE (2026-09-16, iteration 3): customer headshot installed at public/profile.jpg (600×600, 55KB), avatar shows photo — verified loaded, centered, initials removed, no overflow/errors.
-- P2: Apple Wallet pass or NFC-ready short link (needs external service).
-- P2: Optional persisted language choice or auto-detect from browser locale.
+- P2: ~~Optional persisted language choice~~ DONE (2026-09-16, iteration 4): language saved in on-device localStorage, Arabic phone-locale auto-defaults to Arabic on first visit. Also added Android PWA manifest + NationLabs icons (192/512) so the card installs as a home-screen app ("Add to Home screen") — the Android-native replacement for the iOS-only Wallet idea.
+- P2: Apple Wallet pass — NOT applicable (customer's phone is an Honor Magic V5 Android; Google Wallet does not support personal passes of this type). NFC tag pairing recommended instead (write the card URL with any NFC Tools app).
+- P2: Scan analytics — declined, contradicts the customer's explicit no-tracking requirement.
