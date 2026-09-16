@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, MotionConfig, motion } from "framer-motion";
-import { Download, Linkedin, MessageCircle, Mail } from "lucide-react";
+import { Download, Linkedin, MessageCircle, Mail, ShieldCheck } from "lucide-react";
 import { Toaster, toast } from "sonner";
 import { Avatar } from "./components/Avatar";
 import { ConnectSection } from "./components/ConnectSection";
@@ -173,6 +173,10 @@ export default function App() {
           <QrSection onShowQr={() => setQrOpen(true)} t={t} />
 
           <motion.footer className="footer" {...fadeUp(4)}>
+            <div className="footer-privacy" data-testid="privacy-line">
+              <ShieldCheck size={13} aria-hidden="true" />
+              <span>{t.privacyLine}</span>
+            </div>
             <a href={`tel:${PROFILE.phoneRaw}`} data-testid="footer-phone-link">
               {PROFILE.phoneDisplay}
             </a>

@@ -32,6 +32,7 @@ export const STRINGS = {
     toastWallpaper: "Lock-screen QR saved",
     toastWallpaperDesc: "Set it as your wallpaper for hands-free sharing.",
     fsqrHint: "Point the camera at the code — no app needed",
+    privacyLine: "No data collected — this card runs entirely in your browser.",
   },
   ar: {
     eventTagline: "لنتواصل في GISEC",
@@ -63,6 +64,7 @@ export const STRINGS = {
     toastWallpaper: "تم حفظ رمز خلفية الشاشة",
     toastWallpaperDesc: "اضبطه كخلفية لمشاركة سهلة في أي وقت.",
     fsqrHint: "وجّه الكاميرا نحو الرمز — لا حاجة لأي تطبيق",
+    privacyLine: "لا يتم جمع أي بيانات — تعمل هذه البطاقة بالكامل داخل متصفحك.",
   },
 };
 
