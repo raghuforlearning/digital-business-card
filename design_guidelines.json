@@ -1,0 +1,100 @@
+{
+  "project_name": "Raghu M - GISEC 2026 Executive Digital Business Card",
+  "archetype": "Swiss High-Contrast / Enterprise Cyber Precision",
+  "theme": "Dark Obsidian with Electric Cyan & Subtle Teal Accents",
+  "codebase_type": "JavaScript React (.js / .jsx)",
+  "design_principles": [
+    "Boardroom-Safe Minimalism: Ultra-crisp typography, rich high-contrast dark surfaces, restrained electric cyan highlights.",
+    "Mobile-First Speed: One-tap access to vCard, LinkedIn, WhatsApp, and Full-Screen QR code designed for fast trade show floor exchange.",
+    "Dynamic Context Integration: Multi-select Interest Chips that inject selected topics directly into outgoing WhatsApp and Email messages.",
+    "Optical Precision: Crisp 1px subtle borders, backdrop blurs, tactile press feedback, and zero visual clutter."
+  ],
+  "typography": {
+    "heading_font": "Outfit, sans-serif",
+    "body_font": "Inter, sans-serif",
+    "mono_font": "JetBrains Mono, monospace",
+    "scale": {
+      "hero_title": "text-3xl sm:text-4xl font-bold tracking-tight text-slate-50",
+      "section_title": "text-lg sm:text-xl font-semibold tracking-tight text-slate-100",
+      "card_title": "text-base font-medium text-slate-200",
+      "body": "text-sm text-slate-300 leading-relaxed",
+      "caption": "text-xs font-mono uppercase tracking-widest text-cyan-400/90"
+    }
+  },
+  "colors": {
+    "background_base": "#0B0F17",
+    "background_card": "#131B2A",
+    "background_card_hover": "#1A2438",
+    "border_subtle": "#1E293B",
+    "border_accent": "#00F0FF",
+    "primary_cyan": "#00F0FF",
+    "primary_cyan_hover": "#33F3FF",
+    "secondary_teal": "#0D9488",
+    "secondary_teal_light": "#14B8A6",
+    "text_primary": "#F8FAFC",
+    "text_secondary": "#94A3B8",
+    "text_muted": "#64748B",
+    "badge_bg": "rgba(0, 240, 255, 0.1)",
+    "badge_text": "#00F0FF",
+    "glass_bg": "rgba(19, 27, 42, 0.75)",
+    "glass_border": "rgba(255, 255, 255, 0.08)"
+  },
+  "visual_enhancers": {
+    "glassmorphism": "backdrop-blur-xl bg-slate-900/80 border border-slate-800/80 shadow-2xl shadow-cyan-950/20",
+    "card_style": "rounded-2xl bg-slate-900/90 border border-slate-800 p-5 transition-all duration-200 hover:border-slate-700",
+    "button_primary": "w-full py-3.5 px-5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold text-sm flex items-center justify-center gap-2.5 transition-all duration-150 shadow-lg shadow-cyan-500/20 active:scale-[0.98]",
+    "button_secondary": "w-full py-3.5 px-5 rounded-xl bg-slate-800/90 hover:bg-slate-800 text-slate-100 border border-slate-700/80 font-medium text-sm flex items-center justify-center gap-2.5 transition-all duration-150 active:scale-[0.98]",
+    "chip_unselected": "px-3.5 py-2 rounded-lg bg-slate-800/60 border border-slate-700/60 text-slate-300 text-xs font-medium cursor-pointer transition-all hover:bg-slate-800 hover:border-slate-600 active:scale-95",
+    "chip_selected": "px-3.5 py-2 rounded-lg bg-cyan-500/15 border border-cyan-400 text-cyan-300 text-xs font-semibold cursor-pointer transition-all shadow-sm shadow-cyan-500/10 active:scale-95 flex items-center gap-1.5"
+  },
+  "key_components_to_build": [
+    {
+      "name": "EventBadgeHeader",
+      "description": "Configurable top banner displaying GISEC 2026 (Dubai Exhibition Centre) delegate badge with live status indicator and quick QR trigger.",
+      "test_ids": ["gisec-event-badge", "quick-qr-trigger", "delegate-status-indicator"]
+    },
+    {
+      "name": "ExecutiveProfileCard",
+      "description": "Profile header with circular avatar placeholder (icon fallback / RM initials toggle), Raghu M's title, organization, clearance tags, and contact copy actions.",
+      "test_ids": ["profile-avatar", "profile-name", "profile-title", "profile-organization", "copy-email-button", "copy-phone-button"]
+    },
+    {
+      "name": "PrimaryActionGrid",
+      "description": "Quick access action buttons: Save Contact (.vcf download), Connect on LinkedIn, Direct WhatsApp, and Direct Email.",
+      "test_ids": ["download-vcard-button", "linkedin-connect-button", "whatsapp-connect-button", "email-direct-button"]
+    },
+    {
+      "name": "InterestChipsSelector",
+      "description": "Interactive multi-select chips (Zero-Trust, Sovereign AI, Threat Intelligence, etc.) that dynamically inject selected topics into WhatsApp and Email prefilled payloads.",
+      "test_ids": ["interest-chip-zero-trust", "interest-chip-ai-threats", "interest-chip-sovereign-cloud", "interest-chip-crypto", "interest-chip-arch", "reset-interests-button"]
+    },
+    {
+      "name": "QRCodeSection",
+      "description": "Clean QR code display encoding vCard data / networking URL, complete with Download PNG button and Show Full Screen QR trigger.",
+      "test_ids": ["qr-code-display", "download-qr-button", "fullscreen-qr-button"]
+    },
+    {
+      "name": "FullScreenQRModal",
+      "description": "High-contrast full-screen drawer/modal optimized for instant camera scanning under bright exhibition lighting with one-tap close.",
+      "test_ids": ["fullscreen-qr-modal", "fullscreen-qr-image", "close-fullscreen-qr-button"]
+    },
+    {
+      "name": "NationLabsOverviewCard",
+      "description": "Executive summary of NationLabs R&D focus areas, booth coordinates at GISEC 2026 (Hall 8, Stand H8-B40), and one-pager capability document trigger.",
+      "test_ids": ["booth-info-badge", "download-capability-brief-button"]
+    }
+  ],
+  "image_urls": {
+    "background_texture": "https://images.unsplash.com/photo-1650327034581-1711a15a5430?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODd8MHwxfHNlYXJjaHwxfHxjeWJlcnNlY3VyaXR5JTIwYWJzdHJhY3QlMjB0ZWNoJTIwZGFyayUyMGJhY2tncm91bmQlMjBiYW5uZXJ8ZW58MHx8fGJsdWV8MTc4OTU3MjI4MHww&ixlib=rb-4.1.0&q=85",
+    "tech_pattern": "https://images.unsplash.com/photo-1665305891951-ff89439b43f4?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODd8MHwxfHNlYXJjaHw0fHxjeWJlcnNlY3VyaXR5JTIwYWJzdHJhY3QlMjB0ZWNoJTIwZGFyayUyMGJhY2tncm91bmQlMjBiYW5uZXJ8ZW58MHx8fGJsdWV8MTc4OTU3MjI4MHww&ixlib=rb-4.1.0&q=85"
+  },
+  "instructions_to_main_agent": [
+    "Build a mobile-first single-page React application (.js / .jsx) with no top navigation bar.",
+    "Use dark theme by default (Slate-950 base) with electric cyan (#00F0FF) accents and teal secondary highlights.",
+    "Ensure all buttons and interactive elements have data-testid attributes.",
+    "Implement vCard download using Blob URL containing standard vCard 3.0 string.",
+    "Dynamically update WhatsApp and Email direct links whenever interest chips are selected or unselected.",
+    "Provide toast notifications using Sonner when copying email/phone or downloading vCard.",
+    "Provide a dedicated full-screen QR modal component for trade show scanning."
+  ]
+}

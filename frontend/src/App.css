@@ -1,0 +1,557 @@
+/* ============ Raghu M — Digital Business Card ============ */
+
+.page {
+  position: relative;
+  min-height: 100dvh;
+}
+
+/* ---------- Ambient backdrop (pure CSS, zero payload) ---------- */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: #05080f;
+}
+.backdrop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(700px 420px at 50% -80px, rgba(34, 211, 238, 0.15), transparent 65%),
+    radial-gradient(600px 380px at 88% 108%, rgba(45, 212, 191, 0.09), transparent 65%),
+    radial-gradient(520px 320px at 6% 92%, rgba(56, 189, 248, 0.07), transparent 70%);
+}
+.backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(ellipse 90% 62% at 50% 0%, #000 0%, transparent 74%);
+  mask-image: radial-gradient(ellipse 90% 62% at 50% 0%, #000 0%, transparent 74%);
+}
+
+/* ---------- Card shell ---------- */
+.card-shell {
+  max-width: 432px;
+  margin: 0 auto;
+  padding: 30px 22px 44px;
+}
+
+@media (min-width: 720px) {
+  .card-shell {
+    margin-top: 56px;
+    margin-bottom: 56px;
+    padding: 44px 40px;
+    border: 1px solid rgba(148, 163, 184, 0.12);
+    border-radius: 28px;
+    background: rgba(10, 15, 26, 0.55);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 40px 120px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* ---------- Event badge ---------- */
+.event-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  width: fit-content;
+  margin: 0 auto 26px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(34, 211, 238, 0.07);
+  border: 1px solid rgba(34, 211, 238, 0.28);
+  color: #7de9fa;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.event-tagline {
+  color: #8a9bb3;
+  letter-spacing: 0.08em;
+}
+.event-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22d3ee;
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.9);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .event-dot { animation: none; }
+}
+
+/* ---------- Profile ---------- */
+.profile {
+  text-align: center;
+}
+.avatar {
+  width: 112px;
+  height: 112px;
+  margin: 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, #17243c, #0b1322);
+  border: 1px solid rgba(34, 211, 238, 0.35);
+  box-shadow:
+    0 0 0 5px rgba(34, 211, 238, 0.06),
+    0 18px 40px -12px rgba(0, 0, 0, 0.7);
+}
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.avatar span {
+  font-family: "Outfit", sans-serif;
+  font-size: 38px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #9bdced;
+}
+.name {
+  margin: 18px 0 0;
+  font-family: "Outfit", sans-serif;
+  font-size: clamp(30px, 9vw, 38px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: #f8fafc;
+}
+.role {
+  margin: 8px 0 0;
+  font-size: 15.5px;
+  font-weight: 500;
+  color: #cbd5e1;
+}
+.org {
+  margin: 4px 0 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #94a3b8;
+}
+.focus-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 9px;
+  row-gap: 7px;
+  margin: 18px 0 0;
+  padding: 0;
+}
+.focus-list li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7c8da6;
+}
+.focus-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(34, 211, 238, 0.6);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
+  border-radius: 14px;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 0.15s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease,
+    color 0.2s ease;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn-primary {
+  width: 100%;
+  padding: 16px 20px;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: #03161d;
+  background: linear-gradient(180deg, #3adcf5 0%, #0fa8cc 100%);
+  box-shadow:
+    0 12px 30px -8px rgba(34, 211, 238, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.btn-primary:hover {
+  filter: brightness(1.07);
+}
+.action-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+}
+.btn-ghost {
+  padding: 14px 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #dbe4f0;
+  background: rgba(19, 27, 42, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.btn-ghost:hover {
+  border-color: rgba(148, 163, 184, 0.32);
+  background: rgba(26, 36, 56, 0.7);
+}
+.btn-ghost svg {
+  color: #4fd9ee;
+}
+.btn-ghost.icon-teal svg {
+  color: #2dd4bf;
+}
+.btn-ghost.btn-cyan {
+  color: #a5f3fc;
+  border-color: rgba(34, 211, 238, 0.35);
+  background: rgba(34, 211, 238, 0.07);
+}
+.btn-ghost.btn-cyan:hover {
+  background: rgba(34, 211, 238, 0.13);
+}
+.btn-cyan svg {
+  color: #67e8f9;
+}
+
+/* ---------- Panels ---------- */
+.panel {
+  margin-top: 20px;
+  padding: 22px 20px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(19, 27, 42, 0.62), rgba(10, 15, 27, 0.66));
+  border: 1px solid rgba(148, 163, 184, 0.13);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.panel-head .eyebrow {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #53cbe4;
+}
+.panel-head h2 {
+  margin: 6px 0 0;
+  font-family: "Outfit", sans-serif;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #f1f5f9;
+}
+.panel-sub {
+  margin: 8px 0 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #8a9bb3;
+}
+
+/* ---------- Interest chips ---------- */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.chip {
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 500;
+  font-family: inherit;
+  color: #b9c5d6;
+  background: rgba(148, 163, 184, 0.07);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.18s ease;
+}
+.chip:hover {
+  border-color: rgba(148, 163, 184, 0.4);
+  color: #e2e8f0;
+}
+.chip:active {
+  transform: scale(0.95);
+}
+.chip-selected,
+.chip-selected:hover {
+  color: #9beaf9;
+  font-weight: 600;
+  background: rgba(34, 211, 238, 0.12);
+  border-color: rgba(34, 211, 238, 0.55);
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.06);
+}
+
+/* ---------- WhatsApp CTA inside panel ---------- */
+.btn-wa {
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #a7f3e5;
+  background: rgba(45, 212, 191, 0.09);
+  border: 1px solid rgba(45, 212, 191, 0.38);
+  border-radius: 14px;
+}
+.btn-wa:hover {
+  background: rgba(45, 212, 191, 0.16);
+}
+.btn-wa svg {
+  color: #2dd4bf;
+}
+
+.preview-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 14px;
+}
+.msg-preview {
+  flex: 1;
+  margin: 0;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11.5px;
+  line-height: 1.65;
+  color: #6c7e96;
+  background: rgba(5, 8, 15, 0.55);
+  border: 1px dashed rgba(148, 163, 184, 0.22);
+  border-radius: 12px;
+  padding: 11px 13px;
+}
+.link-btn {
+  background: none;
+  border: 0;
+  color: #64748b;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 6px 2px;
+  transition: color 0.18s ease;
+}
+.link-btn:hover {
+  color: #94a3b8;
+}
+
+/* ---------- QR section ---------- */
+.seg {
+  display: flex;
+  width: fit-content;
+  margin: 18px auto 0;
+  padding: 4px;
+  gap: 2px;
+  border-radius: 999px;
+  background: rgba(5, 8, 15, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+}
+.seg button {
+  border: 0;
+  background: transparent;
+  color: #8a9bb3;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 7px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+.seg button:hover {
+  color: #cbd5e1;
+}
+.seg .seg-active,
+.seg .seg-active:hover {
+  background: rgba(34, 211, 238, 0.13);
+  color: #a5f3fc;
+}
+
+.qr-tile {
+  width: fit-content;
+  margin: 18px auto 0;
+  padding: 12px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow:
+    0 20px 50px -20px rgba(34, 211, 238, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+.qr-tile canvas {
+  display: block;
+  width: 188px;
+  height: 188px;
+}
+.qr-tile-lg canvas {
+  width: min(74vw, 320px);
+  height: min(74vw, 320px);
+}
+.qr-caption {
+  margin: 14px 0 0;
+  text-align: center;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+.btn-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 28px;
+  font-size: 12.5px;
+  color: #64748b;
+}
+.footer a {
+  color: #94a3b8;
+  text-decoration: none;
+  transition: color 0.18s ease;
+}
+.footer a:hover {
+  color: #7de9fa;
+}
+
+/* ---------- Full-screen QR mode ---------- */
+.fsqr {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow-y: auto;
+  background:
+    radial-gradient(700px 420px at 50% -80px, rgba(34, 211, 238, 0.14), transparent 65%),
+    #05080f;
+}
+.fsqr-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(19, 27, 42, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+.fsqr-close:hover {
+  color: #ffffff;
+  border-color: rgba(148, 163, 184, 0.4);
+}
+.fsqr-inner {
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+.fsqr-inner .eyebrow {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+.fsqr-inner h1 {
+  margin: 14px 0 0;
+  font-family: "Outfit", sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #f8fafc;
+}
+.fsqr-role {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: #94a3b8;
+}
+.fsqr-focus {
+  margin: 10px 0 0;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #53cbe4;
+}
+.fsqr .qr-tile {
+  margin-top: 22px;
+}
+.fsqr-caption {
+  margin: 16px 0 0;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #7de9fa;
+}
+.fsqr .btn-download {
+  margin-top: 20px;
+}
+.fsqr-hint {
+  margin: 14px 0 0;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.no-scroll {
+  overflow: hidden;
+}
+
+/* ---------- Focus & selection ---------- */
+:focus-visible {
+  outline: 2px solid rgba(34, 211, 238, 0.65);
+  outline-offset: 2px;
+}
+::selection {
+  background: rgba(34, 211, 238, 0.25);
+  color: #f8fafc;
+}
